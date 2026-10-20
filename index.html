@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industry Insight HTS - 산업·포트폴리오 기반 의사결정 시스템</title>
+  <link rel="stylesheet" href="css/hts-theme.css">
+  <link rel="stylesheet" href="css/hts-layout.css">
+  <link rel="stylesheet" href="css/hts-print.css">
+</head>
+<body>
+  <div class="hts-container">
+    <!-- 1. 상단 글로벌 네비게이션 & 상태 바 -->
+    <header class="hts-header">
+      <div class="header-left">
+        <div class="hts-brand">
+          <span class="logo-icon">📈</span>
+          <span>Industry Insight HTS</span>
+          <span class="version-tag">v1.0 MVP</span>
+        </div>
+
+        <!-- 매크로 시장 지수 티커 바 -->
+        <div class="market-ticker-bar" id="header-ticker-bar">
+          <!-- JS 동적 주입 -->
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- 데이터 모드 뱃지 -->
+        <span id="global-data-mode" class="badge badge-fact">스냅샷 분석 모드</span>
+
+        <!-- 데이터 상태 인디케이터 (정상) -->
+        <div class="data-status-indicator" id="header-data-status">
+          <span class="pulse-dot"></span>
+          <span>기준: 2026-10-20 14:30 KST (정상)</span>
+        </div>
+
+        <!-- 한국형 / 국제형 색상 테마 전환 버튼 -->
+        <button class="btn btn-sm" id="btn-color-theme" title="상승/하락 색상 체계 변경">
+          🇰🇷 한국형(빨강↑)
+        </button>
+
+        <!-- 보유종목 관리 모달 바로가기 -->
+        <button class="btn btn-sm btn-primary" id="btn-open-holdings-modal">
+          💼 내 보유종목 관리
+        </button>
+
+        <!-- 설정 & 백업 모달 -->
+        <button class="btn btn-sm" id="btn-open-backup-modal" title="데이터 백업 및 모드 설정">
+          ⚙️ 백업·설정
+        </button>
+
+        <!-- 보고서 인쇄/PDF (AC-15) -->
+        <button class="btn btn-sm" id="btn-print-report" title="A4 가로 보고서 출력 및 PDF 저장">
+          🖨️ 인쇄·PDF
+        </button>
+      </div>
+    </header>
+
+    <!-- 2. 워크스페이스 본문 (16:9 데스크톱 3열 분할) -->
+    <main class="hts-workspace">
+      <!-- [좌측 1열] 4대 핵심 산업 & 종목 탐색기 (UI-01, FR-02, FR-03) -->
+      <aside class="left-nav-panel">
+        <div class="nav-header">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="stock-search-input" placeholder="종목명 또는 코드(005930) 검색..." />
+          </div>
+
+          <!-- 산업 탭 -->
+          <div class="sector-pills">
+            <div class="sector-pill" data-sector="ALL">전체</div>
+            <div class="sector-pill" data-sector="STEEL">🏗️ 철강</div>
+            <div class="sector-pill" data-sector="SHIPBUILDING">🚢 조선</div>
+            <div class="sector-pill" data-sector="AI">🤖 AI</div>
+            <div class="sector-pill active" data-sector="SEMICONDUCTOR">⚡ 반도체</div>
+          </div>
+        </div>
+
+        <!-- 종목 카드 리스트 (스크롤 영역) -->
+        <div class="stock-list-container" id="stock-list-container">
+          <!-- JS 동적 주입 -->
+        </div>
+      </aside>
+
+      <!-- [중앙 2열] 인터랙티브 차트 및 다차원 분석 탭 (UI-02, FR-04, FR-09, FR-10) -->
+      <section class="center-panel">
+        <!-- 차트 헤더 바 -->
+        <div class="chart-header-bar">
+          <div class="chart-stock-info">
+            <span class="chart-stock-name" id="current-stock-name">삼성전자</span>
+            <span class="badge" style="background:#1e293b; color:#94a3b8;" id="current-stock-ticker">KOSPI · 005930</span>
+            <span class="chart-stock-price up" id="current-stock-price">71,800원</span>
+            <span class="up" id="current-stock-diff" style="font-size:12px; font-weight:600;">+1,000 (+1.41%)</span>
+          </div>
+
+          <div class="chart-controls">
+            <!-- 차트 종류 선택기 -->
+            <div class="chart-type-selector">
+              <button class="chart-tab-btn active" data-chart-type="CANDLE">캔들·거래량</button>
+              <button class="chart-tab-btn" data-chart-type="RELATIVE">상대성과(100)</button>
+              <button class="chart-tab-btn" data-chart-type="BOXPLOT">밸류에이션 박스플롯</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 고성능 Canvas 차트 뷰포트 -->
+        <div class="chart-viewport">
+          <canvas id="hts-main-chart"></canvas>
+        </div>
+
+        <!-- 하단 상세 분석 탭 영역 -->
+        <div class="center-tabs-area">
+          <div class="center-tab-bar">
+            <button class="tab-nav-btn active" data-tab="portfolio">💼 내 포트폴리오 (손익·비중)</button>
+            <button class="tab-nav-btn" data-tab="simulator">🔄 조정 시뮬레이터 (가상매매·위험예산)</button>
+            <button class="tab-nav-btn" data-tab="financials">📊 재무 팩트시트</button>
+            <button class="tab-nav-btn" data-tab="industry">🌐 산업 지표 모니터</button>
+            <button class="tab-nav-btn" data-tab="events">📅 일정 & 알림</button>
+            <button class="tab-nav-btn" data-tab="evidence">🔍 근거·데이터 출처</button>
+            <button class="tab-nav-btn" data-tab="acceptance">✅ 수용기준(AC) 검증</button>
+          </div>
+
+          <div class="tab-content-container" id="bottom-tab-content-container">
+            <!-- JS 동적 주입 -->
+          </div>
+        </div>
+      </section>
+
+      <!-- [우측 3열] 조건부 투자 판단 패널 (UI-02, FR-05, FR-06) -->
+      <aside class="right-assessment-panel" id="assessment-panel-container">
+        <!-- JS 동적 주입 -->
+      </aside>
+    </main>
+  </div>
+
+  <!-- 인쇄/PDF 전용 푸터 메타데이터 (AC-15) -->
+  <div class="print-footer-metadata">
+    <div><strong>Industry Insight HTS 투자 판단 보고서</strong> | 기준일시: 2026-10-20 14:30 KST | 품질상태: 정상 스냅샷</div>
+    <div>공급원: 한국거래소(KRX 15분지연), 금융감독원 전자공시(DART), Clarksons, TrendForce, Fastmarkets</div>
+    <div>* 본 보고서는 투자 추천이 아니며, 사용자의 조건부 투자 논리 검증 및 포트폴리오 리스크 관리를 위한 분석 자료입니다.</div>
+  </div>
+
+  <!-- [모달 1] 보유종목 직접 등록 & CSV 가져오기 (UI-03, FR-07, FR-08) -->
+  <div class="modal-overlay" id="modal-holdings">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>💼</span> 내 보유종목 관리 & CSV 파일 가져오기
+        </div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 상단: 직접 등록 폼 -->
+        <div style="background:var(--bg-card); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); margin-bottom:16px;">
+          <div style="font-size:13px; font-weight:700; color:#38bdf8; margin-bottom:10px;">
+            + 개별 보유종목 직접 등록
+          </div>
+          <form id="form-add-holding">
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px;">
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">계좌 별칭</label>
+                <input type="text" id="input-account-alias" value="위탁기본계좌" style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">종목코드 (앞 0 보존, 6자리)</label>
+                <input type="text" id="input-ticker" placeholder="예: 005930" required style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">종목명</label>
+                <input type="text" id="input-name" placeholder="예: 삼성전자" style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">보유 수량</label>
+                <input type="number" id="input-quantity" min="1" placeholder="주수 입력" required style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">평균 매수가 (원)</label>
+                <input type="number" id="input-average-cost" min="0" placeholder="원가 입력" required style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+              <div>
+                <label style="font-size:11px; color:var(--text-muted);">투자 메모</label>
+                <input type="text" id="input-memo" placeholder="투자 아이디어 및 목표" style="width:100%; padding:6px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px;" />
+              </div>
+            </div>
+            <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary btn-sm">종목 저장</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 하단: CSV 파일 가져오기 (FR-08) -->
+        <div style="background:var(--bg-card); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:13px; font-weight:700; color:#10b981;">
+              📁 CSV / 엑셀 업로드 가져오기 (FR-08, AC-01, AC-02, AC-13)
+            </div>
+            <a href="templates/holdings_template.csv" download="holdings_template.csv" style="font-size:11px; color:#38bdf8; text-decoration:none;">
+              📥 템플릿 파일 다운로드 (.csv)
+            </a>
+          </div>
+
+          <div style="font-size:11px; color:var(--text-secondary); margin-bottom:10px;">
+            종목코드 앞자리 '0'이 보존되며(AC-01), 수량/가격 검증 오류 행은 별도로 분리되어 다운로드할 수 있습니다.
+          </div>
+
+          <div style="display:flex; gap:12px; align-items:center;">
+            <input type="file" id="csv-file-input" accept=".csv" style="font-size:12px; color:var(--text-secondary);" />
+            
+            <div style="display:flex; align-items:center; gap:6px; margin-left:auto;">
+              <label style="font-size:11px; color:var(--text-muted);">동일 종목 중복 처리:</label>
+              <select id="csv-dup-strategy" style="padding:4px 8px; background:#0f172a; border:1px solid #334155; color:#fff; border-radius:4px; font-size:11px;">
+                <option value="ACCUMULATE">수량가중 합산 (AC-02 기본)</option>
+                <option value="OVERWRITE">새 데이터로 덮어쓰기</option>
+                <option value="SKIP">기존 유지 (건너뛰기)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 미리보기 영역 -->
+          <div id="csv-preview-container" style="display:none;"></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn modal-close-btn">닫기</button>
+        <button class="btn btn-primary" id="btn-commit-csv" disabled>검증된 데이터 반영하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- [모달 2] 백업·복원 & 모드 설정 (UI-08, FR-12, AC-14, AC-17) -->
+  <div class="modal-overlay" id="modal-backup">
+    <div class="modal-dialog" style="width:650px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚙️</span> HTS 데이터 백업, 복원 및 시스템 설정
+        </div>
+        <button class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body" style="display:flex; flex-direction:column; gap:16px;">
+        <!-- 데이터 모드 전환 (AC-17) -->
+        <div style="background:var(--bg-card); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong style="color:#f8fafc;">데이터 환경 모드 전환 (AC-17)</strong>
+            <div style="font-size:11px; color:var(--text-secondary);">실제 스냅샷과 모의 데모 환경은 별도의 네임스페이스로 격리 보관됩니다.</div>
+          </div>
+          <button class="btn btn-sm" id="btn-toggle-data-mode">모드 전환 토글</button>
+        </div>
+
+        <!-- JSON 전체 백업 내보내기 (AC-14) -->
+        <div style="background:var(--bg-card); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong style="color:#f8fafc;">JSON 전체 백업 파일 다운로드 (AC-14)</strong>
+            <div style="font-size:11px; color:var(--text-secondary);">보유현황, 현금, 메모, 사용자 설정을 스키마 v1.0.0 JSON 파일로 저장합니다.</div>
+          </div>
+          <button class="btn btn-sm btn-primary" id="btn-export-json">JSON 내보내기</button>
+        </div>
+
+        <!-- JSON 백업 복원 (AC-14) -->
+        <div style="background:var(--bg-card); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+          <strong style="color:#f8fafc;">백업 파일 복원 (Restore)</strong>
+          <div style="font-size:11px; color:var(--text-secondary); margin-bottom:8px;">
+            복원 전 자동 백업 스냅샷이 생성되며, 검증 실패 시 안전하게 롤백됩니다.
+          </div>
+          <input type="file" id="json-restore-input" accept=".json" style="font-size:12px; color:var(--text-secondary);" />
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn modal-close-btn">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 앱 부트스트랩 스크립트 (ES 모듈) -->
+  <script type="module" src="js/ui/app.js"></script>
+</body>
+</html>

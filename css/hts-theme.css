@@ -1,0 +1,209 @@
+/**
+ * Industry Insight HTS - Design System & Theme Styles
+ * Color standards, typography, fact category tags, and accessibility badges
+ */
+
+:root {
+  /* Color Palette - Financial Desktop Dark Theme */
+  --bg-primary: #0a0e17;
+  --bg-secondary: #111827;
+  --bg-card: #162032;
+  --bg-card-hover: #1e293b;
+  --bg-input: #0f172a;
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.16);
+  --border-focus: #38bdf8;
+
+  --text-main: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-accent: #38bdf8;
+
+  /* Default KR Market Direction Colors */
+  --color-up: #ef4444;      /* 상승: 빨강 */
+  --color-up-bg: rgba(239, 68, 68, 0.12);
+  --color-down: #3b82f6;    /* 하락: 파랑 */
+  --color-down-bg: rgba(59, 130, 246, 0.12);
+  --color-even: #94a3b8;    /* 보합: 그레이 */
+
+  /* State Colors */
+  --color-warning: #f59e0b;
+  --color-success: #10b981;
+  --color-danger: #ef4444;
+  --color-info: #0284c7;
+
+  /* Fact Categories (PRD Section 1.1) */
+  --badge-fact-bg: rgba(59, 130, 246, 0.15);
+  --badge-fact-color: #60a5fa;
+  --badge-fact-border: rgba(96, 165, 250, 0.4);
+
+  --badge-calc-bg: rgba(168, 85, 247, 0.15);
+  --badge-calc-color: #c084fc;
+  --badge-calc-border: rgba(192, 132, 252, 0.4);
+
+  --badge-interp-bg: rgba(245, 158, 11, 0.15);
+  --badge-interp-color: #fbbf24;
+  --badge-interp-border: rgba(251, 191, 36, 0.4);
+
+  --badge-assump-bg: rgba(20, 184, 166, 0.15);
+  --badge-assump-color: #2dd4bf;
+  --badge-assump-border: rgba(45, 212, 191, 0.4);
+
+  /* Fonts & Radius */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Consolas, "Courier New", monospace;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+/* International Theme Switcher (Green Up, Red Down) */
+body.theme-int {
+  --color-up: #10b981;
+  --color-up-bg: rgba(16, 185, 129, 0.12);
+  --color-down: #ef4444;
+  --color-down-bg: rgba(239, 68, 68, 0.12);
+}
+
+/* Base Resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.45;
+  font-size: 13px;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* Number display with tabular nums */
+.num, .metric-val {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Direction Classes */
+.up {
+  color: var(--color-up) !important;
+}
+.down {
+  color: var(--color-down) !important;
+}
+.even {
+  color: var(--color-even) !important;
+}
+
+/* Badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge-fact {
+  background: var(--badge-fact-bg);
+  color: var(--badge-fact-color);
+  border: 1px solid var(--badge-fact-border);
+}
+.badge-calculated {
+  background: var(--badge-calc-bg);
+  color: var(--badge-calc-color);
+  border: 1px solid var(--badge-calc-border);
+}
+.badge-interpretation {
+  background: var(--badge-interp-bg);
+  color: var(--badge-interp-color);
+  border: 1px solid var(--badge-interp-border);
+}
+.badge-assumption {
+  background: var(--badge-assump-bg);
+  color: var(--badge-assump-color);
+  border: 1px solid var(--badge-assump-border);
+}
+
+.badge-status {
+  padding: 3px 8px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-medium);
+  background: var(--bg-card);
+  color: var(--text-main);
+  transition: all 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-focus);
+}
+
+.btn-primary {
+  background: #0284c7;
+  border-color: #38bdf8;
+  color: #ffffff;
+}
+.btn-primary:hover {
+  background: #0369a1;
+}
+
+.btn-danger {
+  background: #dc2626;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-success {
+  background: #059669;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.btn-sm {
+  padding: 3px 8px;
+  font-size: 11px;
+}

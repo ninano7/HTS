@@ -1,0 +1,151 @@
+/**
+ * Industry Insight HTS - Print & PDF Export Stylesheet (AC-15)
+ * Optimized for A4 Landscape Output (@page { size: landscape; })
+ */
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm 10mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 11px !important;
+    height: auto !important;
+    overflow: visible !important;
+    width: auto !important;
+  }
+
+  /* Hide Interactive / Non-Print Elements */
+  .hts-header .header-right .btn,
+  .chart-controls,
+  .center-tab-bar,
+  .modal-overlay,
+  .search-box,
+  .sector-pills,
+  .btn,
+  ::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* Top Print Header */
+  .hts-header {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-bottom: 2px solid #0f172a !important;
+    height: auto !important;
+    padding: 0 0 8px 0 !important;
+  }
+
+  .hts-brand {
+    color: #0f172a !important;
+  }
+
+  .hts-workspace {
+    display: block !important;
+    height: auto !important;
+    width: 100% !important;
+  }
+
+  /* Panels for Print Layout */
+  .left-nav-panel {
+    display: none !important; /* Left stock list hidden in print summary */
+  }
+
+  .center-panel {
+    border: none !important;
+    width: 100% !important;
+    page-break-after: always;
+  }
+
+  .chart-header-bar {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  .chart-stock-name {
+    color: #0f172a !important;
+  }
+
+  .chart-viewport {
+    height: 320px !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+
+  .right-assessment-panel {
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    margin-top: 15px !important;
+    page-break-inside: avoid;
+  }
+
+  .assessment-hero-card, .trigger-card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  .card-section-title {
+    color: #0f172a !important;
+  }
+
+  .dual-status-box, .timeframe-box {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #0f172a !important;
+  }
+
+  .trigger-item .condition {
+    color: #0f172a !important;
+  }
+
+  .center-tabs-area {
+    display: block !important;
+    background: #ffffff !important;
+  }
+
+  .tab-content-container {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Tables in Print */
+  .hts-table {
+    border: 1px solid #cbd5e1 !important;
+  }
+  .hts-table th {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border-bottom: 2px solid #cbd5e1 !important;
+  }
+  .hts-table td {
+    color: #0f172a !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  /* Privacy Masking in Print Mode */
+  body.mask-privacy .private-data {
+    filter: blur(4px);
+    user-select: none;
+  }
+
+  /* Mandatory Print Footer Metadata (AC-15) */
+  .print-footer-metadata {
+    display: block !important;
+    margin-top: 20px;
+    padding-top: 8px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 10px;
+    color: #64748b;
+  }
+}
+
+.print-footer-metadata {
+  display: none;
+}
