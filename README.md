@@ -38,6 +38,11 @@ node server.js
 ### 방법 3. 브라우저에서 직접 열기
 - 로컬 웹 서버 없이도 `index.html` 파일을 브라우저(Chrome, Edge 등)로 바로 열어서 사용하실 수 있습니다.
 
+### 방법 4. Vercel 클라우드 원클릭 배포
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fninano7%2FHTS)
+- 위 버튼을 클릭하거나 [vercel.com](https://vercel.com)에서 GitHub 저장소(`ninano7/HTS`)를 연결하면 즉시 무료 웹 호스팅 URL이 생성됩니다.
+
+
 ---
 
 ## 3. 수용 기준 (Acceptance Criteria, AC-01 ~ AC-17) 100% 통과 검증
